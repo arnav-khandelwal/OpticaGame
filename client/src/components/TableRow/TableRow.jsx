@@ -10,6 +10,7 @@ const TableRow = ({ rowIndex, onDataChange, onRowSubmit }) => {
   const [submitting, setSubmitting] = useState(false);
 
   const handleFileChange = (e) => {
+    console.log('Files selected:', e.target.files); // Add this line
     if (e.target.files.length > 0) {
       const file = e.target.files[0];
       setFileName(file.name);
@@ -24,15 +25,18 @@ const TableRow = ({ rowIndex, onDataChange, onRowSubmit }) => {
       alert('Please select an image first');
       return;
     }
-
+  
     setSubmitting(true);
     
     try {
-      // Call parent submission handler
+      // Call parent submission handler with rowData
       const aiResponse = await onRowSubmit(rowIndex, rowData);
       
       // Update state with AI response
-      const updatedData = { ...rowData, aiResponse };
+      const updatedData = { 
+        ...rowData, 
+        aiResponse: aiResponse // This now comes directly from the parent
+      };
       setRowData(updatedData);
       onDataChange(rowIndex, updatedData);
       
@@ -46,7 +50,6 @@ const TableRow = ({ rowIndex, onDataChange, onRowSubmit }) => {
       setSubmitting(false);
     }
   };
-
   return (
     <tr>
       <td className="serial-number">{rowIndex + 1}</td>

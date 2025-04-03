@@ -14,16 +14,11 @@ module.exports = {
   // JWT configuration
   jwtSecret: process.env.JWT_SECRET || 'your_jwt_secret_key_here',
   jwtExpire: '1d', // Token expires in 1 day
-  
-  // AI API configuration
-  aiApiEnabled: process.env.AI_API_ENABLED === 'true',
-  aiApiUrl: process.env.AI_API_URL || 'https://api.openai.com/v1/chat/completions',
-  aiApiKey: process.env.AI_API_KEY || '',
-  aiModel: process.env.AI_MODEL || 'gpt-3.5-turbo',
+
   
   // Gemini AI API configuration
-  geminiApiUrl: process.env.GEMINI_API_URL || 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent',
-  geminiApiKey: process.env.GEMINI_API_KEY || '',
+  geminiApiKey: process.env.GEMINI_API_KEY || 'AIzaSyDOi60hbjvzD1NHi-xULzUCMj0HdITftnM',
+  REFERENCE_IMAGE_PATH: process.env.REFERENCE_IMAGE_PATH || './uploads/reference.jpg',
   
   // File upload configuration
   uploadDir: 'uploads',

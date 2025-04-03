@@ -22,8 +22,11 @@ const DataTable = ({ onSuccess, onError, onRowSubmit }) => {
     }
     
     try {
-      // Call the parent component's submit handler
-      const response = await onRowSubmit(rowData.file);
+      const formData = new FormData();
+      formData.append('image', rowData.file);
+      
+      // Call the parent component's submit handler with formData
+      const response = await onRowSubmit(rowIndex, formData);
       return response;
     } catch (error) {
       console.error('Row submission error:', error);

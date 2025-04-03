@@ -45,24 +45,29 @@ const TablePage = () => {
   };
   
   // Process row submission
-  const handleRowSubmit = async (file) => {
+  const handleRowSubmit = async (rowIndex, formData) => {
     try {
-      const formData = new FormData();
-      formData.append('image', file);
-      
-      const config = {
+      // Submit to your existing /api/table endpoint
+      const tableConfig = {
         headers: {
           'Content-Type': 'multipart/form-data',
           'x-auth-token': localStorage.getItem('token')
         }
       };
       
-      const res = await axios.post('/api/table', formData, config);
+      const tableRes = await axios.post('/api/table', formData, tableConfig);
       
-      // Add new entry to the list
-      setEntries([...entries, res.data]);
+      // Then submit to the AI comparison endpoint
+      const aiRes = await axios.post('/api/ai/compare', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'x-auth-token': localStorage.getItem('token')
+        }
+      });
       
-      return res.data.aiResponse || '';
+      // Return just the AI response string
+      return `Similarity score: ${aiRes.data.score.toFixed(1)}/10`;
+      
     } catch (err) {
       console.error(err);
       throw new Error(err.response?.data?.message || 'Failed to submit entry');
